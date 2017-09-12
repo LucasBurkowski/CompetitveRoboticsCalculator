@@ -10,8 +10,9 @@ package competitveroboticscalculator;
  * @author lucas_000
  */
 public class ActivityGUI extends javax.swing.JFrame {
-    int maxNumRows = 20;
+    int maxNumRows = 3;
     ScoringOp[] Operations = new ScoringOp[maxNumRows];
+    TimeCalculator timeCalc;
     /**
      * Creates new form ActivityGUI
      */
@@ -64,7 +65,15 @@ public class ActivityGUI extends javax.swing.JFrame {
             new String [] {
                 "Scoring Oppurtunity", "Objective Time (Seconds)", "Point Value"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Submit Table");
@@ -102,13 +111,18 @@ public class ActivityGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int sum = 120;
         for(int i = 0; i < maxNumRows; i++){
-            Operations[i].setName((String) jTable1.getValueAt(0, i));
-            Operations[i].setTime((int) jTable1.getValueAt(1, i));
-            Operations[i].setPoint((int) jTable1.getValueAt(2, i));
+            //Operations[i].setName((String) jTable1.getValueAt(0, i));
+            System.out.println(jTable1.getValueAt(i, 1).toString());
+            Operations[i].setTime(Integer.parseInt(jTable1.getValueAt(i, 1).toString()));
+            //Operations[i].setPoint((int) jTable1.getValueAt(2, i));
         }
-        
+        int time = 120;
+        int n = Operations.length;
+        if(timeCalc.calcTime(Operations, n, time) == true)
+            System.out.println("Found a subset with given sum");
+        else
+            System.out.println("No subset with given sum");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
