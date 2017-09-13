@@ -5,14 +5,21 @@
  */
 package competitveroboticscalculator;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author lucas_000
  */
 public class ActivityGUI extends javax.swing.JFrame {
-    int maxNumRows = 3;
-    ScoringOp[] Operations = new ScoringOp[maxNumRows];
-    TimeCalculator timeCalc;
+    TimeCalc calc = new TimeCalc();
+    ArrayList<Operation> operations = new ArrayList<Operation>();
+    ArrayList<ArrayList<Operation>> output = new ArrayList<ArrayList<Operation>>();
+    ArrayList<Operation> current = new ArrayList<Operation>();
+    int timeTele = 120;
     /**
      * Creates new form ActivityGUI
      */
@@ -30,51 +37,14 @@ public class ActivityGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Competitive Robotics Calculator");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Scoring Oppurtunity", "Objective Time (Seconds)", "Point Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Submit Table");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +52,43 @@ public class ActivityGUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Point Value", "Time to Complete", "Max Times Allow"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,8 +98,8 @@ public class ActivityGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,7 +108,7 @@ public class ActivityGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -111,18 +118,25 @@ public class ActivityGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for(int i = 0; i < maxNumRows; i++){
-            //Operations[i].setName((String) jTable1.getValueAt(0, i));
-            System.out.println(jTable1.getValueAt(i, 1).toString());
-            Operations[i].setTime(Integer.parseInt(jTable1.getValueAt(i, 1).toString()));
-            //Operations[i].setPoint((int) jTable1.getValueAt(2, i));
-        }
-        int time = 120;
-        int n = Operations.length;
-        if(timeCalc.calcTime(Operations, n, time) == true)
-            System.out.println("Found a subset with given sum");
-        else
-            System.out.println("No subset with given sum");
+       for(int i = 0; i < 20; i++){
+           if(jTable1.getValueAt(i, 0) != null){
+               String name = jTable1.getValueAt(i, 0).toString();
+               int point = Integer.parseInt(jTable1.getValueAt(i, 1).toString());
+               int time = Integer.parseInt(jTable1.getValueAt(i, 2).toString());
+               int max = Integer.parseInt(jTable1.getValueAt(i, 3).toString());
+               
+               Operation temp = new Operation(time, point, name, max);
+               operations.add(temp);
+           }
+       }
+       calc.sortOps(operations);
+       calc.calcTime(operations, 0, timeTele, current, output);
+            CSVOut finalOut = new CSVOut();
+           try {
+               finalOut.printCSV(output);
+           } catch (FileNotFoundException ex) {
+               Logger.getLogger(ActivityGUI.class.getName()).log(Level.SEVERE, null, ex);
+           }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
