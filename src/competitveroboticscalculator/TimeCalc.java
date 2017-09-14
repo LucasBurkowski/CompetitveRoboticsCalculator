@@ -6,10 +6,13 @@ import java.util.*;
 public class TimeCalc {
     public void calcTime(ArrayList<Operation> operations, int n, int time, ArrayList<Operation> current, ArrayList<ArrayList<Operation>> out){
 	if (time == 0){
-		ArrayList<Operation> temp = new ArrayList<Operation>(current);
-		out.add(temp);
+            ArrayList<Operation> temp = new ArrayList<Operation>(current);
+            out.add(temp);
+            for(int i = 0; i < operations.size(); i++){
+                operations.get(i).count = 0;
+            }
             return;
-		}
+	}
         for(int i = n; i < operations.size(); i++){
         	if(time < operations.get(i).time){
         		return;
@@ -18,12 +21,11 @@ public class TimeCalc {
     		{
         		return;
     		}else{
-    			operations.get(i).count += 1;
+    		operations.get(i).count += 1;
             	current.add(operations.get(i));
             	calcTime(operations, i, time - operations.get(i).time, current, out);
             	current.remove(current.size()-1);
     		}
-    		
         }
     }
     

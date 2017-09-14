@@ -17,6 +17,7 @@ public class Operation {
 		this.pointVal = pointVal;
 		this.name = name;
                 this.max = max;
+                this.count = 0;
 	}
         
         public boolean getRepeat(){
@@ -29,5 +30,13 @@ public class Operation {
         
         public int getTime(){
             return this.time;
+        }
+        
+        public boolean equals(Operation op){
+            if (this.name.equals(op.name)){
+                return true;
+            }else{
+                return false;
+            }
         }
 }

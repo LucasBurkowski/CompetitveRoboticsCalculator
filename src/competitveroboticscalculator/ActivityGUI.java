@@ -133,7 +133,7 @@ public class ActivityGUI extends javax.swing.JFrame {
        calc.calcTime(operations, 0, timeTele, current, output);
             CSVOut finalOut = new CSVOut();
            try {
-               finalOut.printCSV(output);
+               finalOut.printCSV(output, operations);
            } catch (FileNotFoundException ex) {
                Logger.getLogger(ActivityGUI.class.getName()).log(Level.SEVERE, null, ex);
            }
