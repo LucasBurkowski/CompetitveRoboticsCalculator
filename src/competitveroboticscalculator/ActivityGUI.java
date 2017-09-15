@@ -42,6 +42,10 @@ public class ActivityGUI extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(520, 420));
+        setMinimumSize(new java.awt.Dimension(520, 420));
+        setPreferredSize(new java.awt.Dimension(520, 400));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Competitive Robotics Calculator");
@@ -109,9 +113,9 @@ public class ActivityGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,8 +127,12 @@ public class ActivityGUI extends javax.swing.JFrame {
                String name = jTable1.getValueAt(i, 0).toString();
                int point = Integer.parseInt(jTable1.getValueAt(i, 1).toString());
                int time = Integer.parseInt(jTable1.getValueAt(i, 2).toString());
-               int max = Integer.parseInt(jTable1.getValueAt(i, 3).toString());
-               
+               int max = 0;
+               if (jTable1.getValueAt(i, 3) == null){
+                   max = 100000;
+               }else{
+                   max = Integer.parseInt(jTable1.getValueAt(i, 3).toString());
+               }
                Operation temp = new Operation(time, point, name, max);
                operations.add(temp);
            }
