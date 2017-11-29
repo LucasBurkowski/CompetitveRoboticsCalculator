@@ -2,22 +2,26 @@ package competitveroboticscalculator;
 
 
 public class Operation {
-	int time; 
-	int pointVal;
+	double time; 
+	double pointVal;
 	int count;
         int max;
+        int minCount;
 	String name;
 	boolean repeat;
 	
 	public Operation(){	
 	}
 	
-	public Operation(int time, int pointVal, String name, int max){
+	public Operation(double time, double pointVal, String name, int max, int minCount){
 		this.time = time;
 		this.pointVal = pointVal;
 		this.name = name;
                 this.max = max;
+                this.minCount = minCount;
                 this.count = 0;
+                
+                this.time *= this.minCount;
 	}
         
         public boolean getRepeat(){
@@ -28,7 +32,7 @@ public class Operation {
             }
         }
         
-        public int getTime(){
+        public double getTime(){
             return this.time;
         }
         

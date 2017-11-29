@@ -6,14 +6,19 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class CSVOut {
+    
+    public String fileName;
+    
+    public CSVOut (String fileName){
+        this.fileName = fileName;
+    }
+    
     public void printCSV(ArrayList<ArrayList<Operation>> output, ArrayList<Operation> list) throws FileNotFoundException{
 		
-		PrintWriter writer = new PrintWriter("RoboCalc.csv");
+		PrintWriter writer = new PrintWriter(fileName);
 		StringBuilder sb = new StringBuilder();
                 
 		
-		sb.append("Strategy:");
-                sb.append(',');
                 for(int j = 0; j < list.size(); j++){
                     sb.append(list.get(j).name + " Count:");
                     sb.append(',');
@@ -22,9 +27,7 @@ public class CSVOut {
                 sb.append('\n');
                 
 		for(int i = 0; i < output.size(); i++){
-			int sum = 0;
-                        sb.append(i+1);
-                        sb.append(',');
+			double sum = 0;
                         for(int k = 0; k < list.size(); k++){
                             int[] opCount = new int[list.size()]; 
                             for(int j = 0; j < output.get(i).size(); j++){

@@ -40,10 +40,12 @@ public class ActivityGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(520, 420));
-        setMinimumSize(new java.awt.Dimension(520, 420));
+        setMaximumSize(new java.awt.Dimension(520, 520));
+        setMinimumSize(new java.awt.Dimension(520, 520));
         setPreferredSize(new java.awt.Dimension(520, 400));
         setResizable(false);
 
@@ -59,33 +61,33 @@ public class ActivityGUI extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Name", "Point Value", "Time to Complete", "Max Times Allow"
+                "Name", "Minimum Times", "Point Value", "Time to Complete", "Max Times Allow"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -93,6 +95,15 @@ public class ActivityGUI extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+
+        jTextField1.setText("File Name");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Save As:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,7 +114,11 @@ public class ActivityGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -113,40 +128,66 @@ public class ActivityGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       for(int i = 0; i < 20; i++){
+        String fileName = "RoboCalc.csv";
+        for(int i = 0; i < 20; i++){
            if(jTable1.getValueAt(i, 0) != null){
                String name = jTable1.getValueAt(i, 0).toString();
-               int point = Integer.parseInt(jTable1.getValueAt(i, 1).toString());
-               int time = Integer.parseInt(jTable1.getValueAt(i, 2).toString());
+               double point = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+               double time = Double.parseDouble(jTable1.getValueAt(i, 3).toString());
                int max = 0;
-               if (jTable1.getValueAt(i, 3) == null){
+               if (jTable1.getValueAt(i, 4) == null){
                    max = 100000;
                }else{
-                   max = Integer.parseInt(jTable1.getValueAt(i, 3).toString());
+                   max = Integer.parseInt(jTable1.getValueAt(i, 4).toString());
                }
-               Operation temp = new Operation(time, point, name, max);
-               operations.add(temp);
+               int minCount = 0;
+               if (jTable1.getValueAt(i,4) == null){
+                   minCount = 1;
+               }else{
+                   minCount = Integer.parseInt(jTable1.getValueAt(i, 1).toString());
+               }
+               operations.add(new Operation(time, point, name, max, minCount));
            }
        }
-       calc.sortOps(operations);
+       
+       if(jTextField1.getText() != null){
+           fileName = jTextField1.getText() + ".csv";
+       }
+       
+       //calc.sortOps(operations);
        calc.calcTime(operations, 0, timeTele, current, output);
-            CSVOut finalOut = new CSVOut();
+            CSVOut finalOut = new CSVOut(fileName);
            try {
                finalOut.printCSV(output, operations);
+               clearData();
            } catch (FileNotFoundException ex) {
                Logger.getLogger(ActivityGUI.class.getName()).log(Level.SEVERE, null, ex);
            }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+    
+    public void clearData(){//empty all array lists so we can resubmit a new file.
+        operations.clear();
+        output.clear();
+        current.clear();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -187,7 +228,9 @@ public class ActivityGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
